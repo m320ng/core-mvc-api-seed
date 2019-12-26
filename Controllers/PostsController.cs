@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using IssueTracker.Services;
-using IssueTracker.Models;
-using IssueTracker.Entities;
+using SeedApi.Services;
+using SeedApi.Models;
+using SeedApi.Entities;
 using System.Linq;
 
-namespace IssueTracker.Controllers {
+namespace SeedApi.Controllers {
     public class SignInModel {
         public string email { get; set; }
         public string password { get; set; }

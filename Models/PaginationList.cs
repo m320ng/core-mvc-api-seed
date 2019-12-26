@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
 
-namespace IssueTracker.Models {
+namespace SeedApi.Models {
     public class PaginationList<T> {
         public int page { get; set; }
         public int total { get; set; }

@@ -8,7 +8,7 @@ using System.Text;
 using System.Web;
 using Microsoft.AspNetCore.Identity;
 
-namespace IssueTracker.Entities {
+namespace SeedApi.Entities {
     public enum UserType {
         운영자 = 1,
         협력사,

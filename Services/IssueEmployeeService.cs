@@ -5,25 +5,25 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 
-using IssueTracker.Data;
-using IssueTracker.Helpers;
-using IssueTracker.Entities;
+using SeedApi.Data;
+using SeedApi.Helpers;
+using SeedApi.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using IssueTracker.Models;
+using SeedApi.Models;
 
-namespace IssueTracker.Services {
+namespace SeedApi.Services {
     public class IssueEmployeeService {
         private readonly ILogger<IssueEmployeeService> _logger;
-        private readonly IssueTrackerContext _context;
+        private readonly SeedApiContext _context;
 
         private readonly AppSettings _appSettings;
 
         public IssueEmployeeService(ILogger
             <IssueEmployeeService> logger,
-            IssueTrackerContext context,
+            SeedApiContext context,
             IOptions<AppSettings> appSettings) {
             _logger = logger;
             _context = context;

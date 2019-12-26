@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
-using IssueTracker.Entities.Components;
-using IssueTracker.Entities.Interfaces;
+using SeedApi.Entities.Components;
+using SeedApi.Entities.Interfaces;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace IssueTracker.Entities
+namespace SeedApi.Entities
 {
     public enum IssueType {
         전자결재문서,

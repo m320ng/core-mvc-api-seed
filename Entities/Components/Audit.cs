@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using IssueTracker.Models;
+using SeedApi.Models;
 
-namespace IssueTracker.Entities.Components
+namespace SeedApi.Entities.Components
 {
     public class Audit 
     {

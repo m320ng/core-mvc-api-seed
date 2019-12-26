@@ -2,7 +2,7 @@
 
 using System.Collections.Generic;
 
-namespace IssueTracker.Models {
+namespace SeedApi.Models {
 
 
     public class PaginationRequest {

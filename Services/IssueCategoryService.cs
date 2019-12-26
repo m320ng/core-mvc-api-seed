@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using IssueTracker.Data;
-using IssueTracker.Entities;
+using SeedApi.Data;
+using SeedApi.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace IssueTracker.Services {
+namespace SeedApi.Services {
     public class IssueCategoryService {
         private readonly ILogger<IssueCategoryService> _logger;
-        private readonly IssueTrackerContext _context;
+        private readonly SeedApiContext _context;
 
-        public IssueCategoryService(ILogger<IssueCategoryService> logger, IssueTrackerContext context) {
+        public IssueCategoryService(ILogger<IssueCategoryService> logger, SeedApiContext context) {
             _logger = logger;
             _context = context;
         }

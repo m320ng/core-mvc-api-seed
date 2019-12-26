@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace IssueTracker.Models
+namespace SeedApi.Models
 {
     public class AuthenticateModel
     {

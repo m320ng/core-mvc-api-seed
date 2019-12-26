@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
-using IssueTracker.Entities.Interfaces;
-using IssueTracker.Entities.Components;
+using SeedApi.Entities.Interfaces;
+using SeedApi.Entities.Components;
 
-namespace IssueTracker.Entities
+namespace SeedApi.Entities
 {
     public enum IssueThreadType {
         일반 = 0,

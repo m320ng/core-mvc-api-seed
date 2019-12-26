@@ -1,6 +1,6 @@
 using System;
 
-namespace IssueTracker.Models
+namespace SeedApi.Models
 {
     public class ErrorViewModel
     {

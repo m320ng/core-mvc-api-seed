@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
-using IssueTracker.Entities;
+using SeedApi.Entities;
 
-namespace IssueTracker.Helpers
+namespace SeedApi.Helpers
 {
     public static class ExtensionMethods
     {

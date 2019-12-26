@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Logging;
 
-namespace IssueTracker.Helpers {
+namespace SeedApi.Helpers {
 
     public class ApplicationLogging {
         private static ILoggerFactory _factory = null;

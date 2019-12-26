@@ -1,6 +1,6 @@
 
-using IssueTracker.Data;
-using IssueTracker.Helpers;
+using SeedApi.Data;
+using SeedApi.Helpers;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -9,18 +9,15 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using IssueTracker.Services;
+using SeedApi.Services;
 using Microsoft.Extensions.WebEncoders;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Identity;
-using System;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace IssueTracker {
+namespace SeedApi {
     public class Startup {
         public Startup(IConfiguration configuration, IWebHostEnvironment env) {
             Environment = env;
@@ -42,13 +39,13 @@ namespace IssueTracker {
 
             if (Environment.IsDevelopment()) {
                 services.AddControllers();
-                services.AddDbContext<IssueTrackerContext>(
-                    //options => options.UseSqlite(Configuration.GetConnectionString("IssueTrackerContext")));
-                    options => options.UseSqlServer(Configuration.GetConnectionString("IssueTrackerContext")));
+                services.AddDbContext<SeedApiContext>(
+                    //options => options.UseSqlite(Configuration.GetConnectionString("SeedApiContext")));
+                    options => options.UseSqlServer(Configuration.GetConnectionString("SeedApiContext")));
             } else {
                 services.AddControllersWithViews();
-                services.AddDbContext<IssueTrackerContext>(
-                    options => options.UseSqlServer(Configuration.GetConnectionString("IssueTrackerContext")));
+                services.AddDbContext<SeedApiContext>(
+                    options => options.UseSqlServer(Configuration.GetConnectionString("SeedApiContext")));
             }
 
             // configure strongly typed settings objects

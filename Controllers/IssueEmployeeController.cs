@@ -4,24 +4,24 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
-using IssueTracker.Data;
-using IssueTracker.Models;
-using IssueTracker.Entities;
-using IssueTracker.Services;
+using SeedApi.Data;
+using SeedApi.Models;
+using SeedApi.Entities;
+using SeedApi.Services;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace IssueTracker.Controllers {
+namespace SeedApi.Controllers {
     public class IssueEmployeeController : Controller {
         private readonly ILogger<IssueEmployeeController> _logger;
-        private readonly IssueTrackerContext _context;
+        private readonly SeedApiContext _context;
         private readonly IssueEmployeeService _service;
 
         public IssueEmployeeController(
             ILogger<IssueEmployeeController> logger,
-            IssueTrackerContext context,
+            SeedApiContext context,
             IssueEmployeeService service
             ) {
             _logger = logger;
