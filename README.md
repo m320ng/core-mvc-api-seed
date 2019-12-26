@@ -1,34 +1,33 @@
-## Trust the HTTPS
+## 설치
+
+Trust the HTTPS
 
 ```
 dotnet dev-certs https --trust
 ```
 
-## Add EF Core Package
+EF Core Package 추가
 
 ```
 dotnet tool install --global dotnet-ef
 dotnet add package Microsoft.EntityFrameworkCore.SQLite
 dotnet add package Microsoft.EntityFrameworkCore.Design
 dotnet add package Microsoft.EntityFrameworkCore.SqlServer
-<<<<<<< HEAD
 ```
 
-## test database
+test database 생성
 
 ```
 dotnet ef migrations add init
 dotnet ef database update
 ```
 
-## DB Browser for SQLite
+## 추가 도움툴
 
-<https://sqlitebrowser.org/>
-=======
-````
+DB Browser for SQLite : QLite 클라이언트
 
-## 기타 도움툴
+- <https://sqlitebrowser.org/>
+
 PostMan : API 테스트 클라이언트
-<https://www.getpostman.com/>
 
->>>>>>> a4eb951f771bba93e70c8b588c19cb97836d88fc
+- <https://www.getpostman.com/>
