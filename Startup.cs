@@ -43,8 +43,8 @@ namespace IssueTracker {
             if (Environment.IsDevelopment()) {
                 services.AddControllersWithViews().AddRazorRuntimeCompilation();
                 services.AddDbContext<IssueTrackerContext>(
-                    //options => options.UseSqlite(Configuration.GetConnectionString("IssueTrackerContext")));
-                    options => options.UseSqlServer(Configuration.GetConnectionString("IssueTrackerContext")));
+                    options => options.UseSqlite(Configuration.GetConnectionString("IssueTrackerContext")));
+                    //options => options.UseSqlServer(Configuration.GetConnectionString("IssueTrackerContext")));
             } else {
                 services.AddControllersWithViews();
                 services.AddDbContext<IssueTrackerContext>(
