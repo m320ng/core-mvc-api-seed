@@ -6,11 +6,11 @@ using System.IO;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
 using System.Linq.Expressions;
-using IssueTracker.Helpers;
+using SeedApi.Helpers;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.Extensions.Logging;
 
-namespace IssueTracker.Entities.Components
+namespace SeedApi.Entities.Components
 {
     public class UploadFile
     {

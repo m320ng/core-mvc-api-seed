@@ -25,7 +25,7 @@ using System.Net.Sockets;
 using System.IO.Compression;
 using Microsoft.Extensions.Logging;
 
-namespace IssueTracker.Helpers
+namespace SeedApi.Helpers
 {
     // 각종 Util성 Helper Function모음
     public class Util

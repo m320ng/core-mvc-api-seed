@@ -1,7 +1,7 @@
 using System;
-using IssueTracker.Entities;
+using SeedApi.Entities;
 
-namespace IssueTracker.Entities.Interfaces
+namespace SeedApi.Entities.Interfaces
 {
     public interface IAuditable
     {

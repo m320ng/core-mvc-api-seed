@@ -4,11 +4,11 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.Collections;
-using IssueTracker.Entities.Interfaces;
-using IssueTracker.Entities.Components;
+using SeedApi.Entities.Interfaces;
+using SeedApi.Entities.Components;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace IssueTracker.Entities
+namespace SeedApi.Entities
 {
     public enum IssueEmployeeManageType {
         자체관리 = 0,

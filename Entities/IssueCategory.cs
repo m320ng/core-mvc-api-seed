@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
-using IssueTracker.Entities.Components;
-using IssueTracker.Entities.Interfaces;
+using SeedApi.Entities.Components;
+using SeedApi.Entities.Interfaces;
 
-namespace IssueTracker.Entities
+namespace SeedApi.Entities
 {
     public class IssueCategory : IAuditable
     {

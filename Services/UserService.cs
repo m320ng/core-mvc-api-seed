@@ -4,13 +4,13 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using IssueTracker.Helpers;
-using IssueTracker.Entities;
+using SeedApi.Helpers;
+using SeedApi.Entities;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
-namespace IssueTracker.Services {
+namespace SeedApi.Services {
 
     public class UserService {
         // users hardcoded for simplicity, store in a db with hashed passwords in production applications

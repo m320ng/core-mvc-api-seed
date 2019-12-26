@@ -1,4 +1,4 @@
-namespace IssueTracker.Helpers
+namespace SeedApi.Helpers
 {
     public class AppSettings
     {

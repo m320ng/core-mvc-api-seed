@@ -1,11 +1,11 @@
 using System.Linq;
-using IssueTracker.Entities;
-using IssueTracker.Entities.Components;
+using SeedApi.Entities;
+using SeedApi.Entities.Components;
 using Microsoft.EntityFrameworkCore;
 
-namespace IssueTracker.Data {
-    public class IssueTrackerContext : DbContext {
-        public IssueTrackerContext(DbContextOptions<IssueTrackerContext> options) : base(options) { }
+namespace SeedApi.Data {
+    public class SeedApiContext : DbContext {
+        public SeedApiContext(DbContextOptions<SeedApiContext> options) : base(options) { }
 
         public override int SaveChanges() {
             ChangeTracker.DetectChanges();

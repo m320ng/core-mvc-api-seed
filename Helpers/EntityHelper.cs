@@ -8,7 +8,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Data;
 using Microsoft.Extensions.Logging;
 
-namespace IssueTracker.Helpers
+namespace SeedApi.Helpers
 {
     public class EntityHelper
     {

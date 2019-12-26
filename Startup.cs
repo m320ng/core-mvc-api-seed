@@ -1,6 +1,6 @@
 
-using IssueTracker.Data;
-using IssueTracker.Helpers;
+using SeedApi.Data;
+using SeedApi.Helpers;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -9,18 +9,15 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using IssueTracker.Services;
+using SeedApi.Services;
 using Microsoft.Extensions.WebEncoders;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Identity;
-using System;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace IssueTracker {
+namespace SeedApi {
     public class Startup {
         public Startup(IConfiguration configuration, IWebHostEnvironment env) {
             Environment = env;
@@ -47,8 +44,8 @@ namespace IssueTracker {
                     //options => options.UseSqlServer(Configuration.GetConnectionString("IssueTrackerContext")));
             } else {
                 services.AddControllersWithViews();
-                services.AddDbContext<IssueTrackerContext>(
-                    options => options.UseSqlServer(Configuration.GetConnectionString("IssueTrackerContext")));
+                services.AddDbContext<SeedApiContext>(
+                    options => options.UseSqlServer(Configuration.GetConnectionString("SeedApiContext")));
             }
 
             // configure strongly typed settings objects
@@ -80,16 +77,7 @@ namespace IssueTracker {
             ApplicationLogging.ConfigureLogger(loggerFactory);
             Util._logger = ApplicationLogging.CreateLogger("Util");
             EntityHelper._logger = ApplicationLogging.CreateLogger("EntityHelper");
-
-            if (env.IsDevelopment()) {
-                app.UseDeveloperExceptionPage();
-            } else {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
-            //app.UseHttpsRedirection();
-            //app.UseStaticFiles();
+            
             app.UseRouting();
 
             // global cors policy
@@ -102,9 +90,7 @@ namespace IssueTracker {
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllers();
             });
         }
     }

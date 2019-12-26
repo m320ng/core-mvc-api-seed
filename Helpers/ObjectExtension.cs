@@ -6,7 +6,7 @@ using System.Collections;
 using System.Collections.Specialized;
 using System.Reflection;
 
-namespace IssueTracker.Helpers
+namespace SeedApi.Helpers
 {
     public static class ObjectExtension
     {
