@@ -41,7 +41,7 @@ namespace IssueTracker {
             services.AddScoped<UserService>();
 
             if (Environment.IsDevelopment()) {
-                services.AddControllersWithViews().AddRazorRuntimeCompilation();
+                services.AddControllers();
                 services.AddDbContext<IssueTrackerContext>(
                     //options => options.UseSqlite(Configuration.GetConnectionString("IssueTrackerContext")));
                     options => options.UseSqlServer(Configuration.GetConnectionString("IssueTrackerContext")));
@@ -80,7 +80,8 @@ namespace IssueTracker {
             ApplicationLogging.ConfigureLogger(loggerFactory);
             Util._logger = ApplicationLogging.CreateLogger("Util");
             EntityHelper._logger = ApplicationLogging.CreateLogger("EntityHelper");
-
+            
+            /*
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
             } else {
@@ -88,8 +89,8 @@ namespace IssueTracker {
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            */
             //app.UseHttpsRedirection();
-            //app.UseStaticFiles();
             app.UseRouting();
 
             // global cors policy
