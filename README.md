@@ -22,6 +22,12 @@ dotnet ef migrations add init
 dotnet ef database update
 ```
 
+Versioning 패키지
+
+```
+dotnet add package Microsoft.AspNetCore.Mvc.Versioning --version 4.1.0
+```
+
 ## 추가 도움툴
 
 DB Browser for SQLite : QLite 클라이언트

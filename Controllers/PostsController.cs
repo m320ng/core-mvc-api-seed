@@ -4,6 +4,7 @@ using SeedApi.Services;
 using SeedApi.Models;
 using SeedApi.Entities;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 
 namespace SeedApi.Controllers {
     public class SignInModel {
@@ -14,16 +15,19 @@ namespace SeedApi.Controllers {
     [Authorize]
     [ApiController]
     //[ApiVersion("1")]
-    [Route("posts")]
+    //[Route("posts")]
+    [Route("api/[controller]/[action]")]
     public class PostsController : ControllerBase {
+        private readonly ILogger<PostsController> _logger;
         private IssueEmployeeService _issueEmpService;
 
-        public PostsController(IssueEmployeeService issueEmpService) {
+        public PostsController(ILogger<PostsController> logger, IssueEmployeeService issueEmpService) {
+            _logger = logger;
             _issueEmpService = issueEmpService;
         }
 
         [AllowAnonymous]
-        [HttpPost("signin")]
+        [HttpPost]
         public IActionResult SignIn([FromBody]SignInModel model) {
             var emp = _issueEmpService.Login(model.email, model.password, null);
 
@@ -40,9 +44,10 @@ namespace SeedApi.Controllers {
         /// 관리자 목록
         /// </summary>
         [AllowAnonymous]
-        [HttpPost("posts")]
-        public IActionResult GetAll(PaginationRequest req) {
+        [HttpGet]
+        public IActionResult GetAll([FromQuery]PaginationRequest req) {
             var query = _issueEmpService.All();
+            _logger.LogInformation($"getall page={req.page}");
 
             if (req.conditions != null) {
                 foreach (var cond in req.conditions) {
@@ -102,7 +107,7 @@ namespace SeedApi.Controllers {
         /// 권한 상세
         /// </summary>
         [AllowAnonymous]
-        [HttpGet("role/{id}")]
+        [HttpGet("{id}")]
         public IActionResult Role(int id) {
             return Ok(User.Identity);
         }

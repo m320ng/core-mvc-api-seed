@@ -8,4 +8,4 @@
 
 # misc
 /Migrations
-IssueTracker.db
+*.db
