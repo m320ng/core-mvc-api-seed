@@ -1,5 +1,5 @@
 using System;
-using IssueTracker.Data;
+using SeedApi.Data;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;

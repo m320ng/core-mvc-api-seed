@@ -1,15 +1,15 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using IssueTracker.Entities;
+using SeedApi.Entities;
 using System;
 using System.Linq;
 
-namespace IssueTracker.Data {
+namespace SeedApi.Data {
     public static class SeedData {
         public static void Initialize(IServiceProvider serviceProvider) {
-            using (var context = new IssueTrackerContext(
+            using (var context = new SeedApiContext(
                 serviceProvider.GetRequiredService<
-                    DbContextOptions<IssueTrackerContext>>())) {
+                    DbContextOptions<SeedApiContext>>())) {
 
                 // 데이터가 있다면 skip
                 if (context.IssueEmployee.Any()) {

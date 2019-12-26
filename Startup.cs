@@ -39,9 +39,9 @@ namespace SeedApi {
 
             if (Environment.IsDevelopment()) {
                 services.AddControllersWithViews().AddRazorRuntimeCompilation();
-                services.AddDbContext<IssueTrackerContext>(
-                    options => options.UseSqlite(Configuration.GetConnectionString("IssueTrackerContext")));
-                    //options => options.UseSqlServer(Configuration.GetConnectionString("IssueTrackerContext")));
+                services.AddDbContext<SeedApiContext>(
+                    options => options.UseSqlite(Configuration.GetConnectionString("SeedApiContext")));
+                    //options => options.UseSqlServer(Configuration.GetConnectionString("SeedApiContext")));
             } else {
                 services.AddControllersWithViews();
                 services.AddDbContext<SeedApiContext>(
