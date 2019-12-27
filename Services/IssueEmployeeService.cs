@@ -21,8 +21,8 @@ namespace SeedApi.Services {
 
         private readonly AppSettings _appSettings;
 
-        public IssueEmployeeService(ILogger
-            <IssueEmployeeService> logger,
+        public IssueEmployeeService(
+            ILogger<IssueEmployeeService> logger,
             SeedApiContext context,
             IOptions<AppSettings> appSettings) {
             _logger = logger;
@@ -36,7 +36,6 @@ namespace SeedApi.Services {
                 data.IsDelete = true;
                 _context.SaveChanges();
             } catch (Exception ex) {
-                _logger.LogError("", ex);
                 throw ex;
             }
         }
@@ -54,19 +53,10 @@ namespace SeedApi.Services {
         public IssueEmployee Login(string account, string password, string ip) {
             IssueEmployee emp = null;
             try {
-                emp = (from c in _context.IssueEmployee.Include(x=>x.User)
+                emp = (from c in _context.IssueEmployee.Include(x => x.User)
                        where c.IsDelete == false && c.Account == account
-                       //     && c.SystemType == systemType
                        select c).FirstOrDefault();
                 if (emp != null && emp.Password == password) {
-                    if (emp.User == null) {
-                        emp.User = new User() {
-                            Name = emp.Name,
-                            Type = UserType.운영자
-                        };
-                    }
-                    _logger.LogInformation("_appSettings.Secret:"+_appSettings.Secret);
-
                     // authentication successful so generate jwt token
                     var user = emp.User;
                     var tokenHandler = new JwtSecurityTokenHandler();
@@ -75,7 +65,8 @@ namespace SeedApi.Services {
                         Subject = new ClaimsIdentity(new Claim[]
                         {
                             new Claim(ClaimTypes.Name, user.Id.ToString()),
-                            new Claim(ClaimTypes.Role, "Admin"),
+                            new Claim(ClaimTypes.Role, Role.Admin),
+                            new Claim(ClaimTypes.Role, Role.SuperAdmin),
                             new Claim("permissions", "['admin']")
                         }),
                         Expires = DateTime.UtcNow.AddDays(7),
@@ -90,17 +81,16 @@ namespace SeedApi.Services {
                     return null;
                 }
             } catch (Exception ex) {
-                _logger.LogError("", ex);
                 throw ex;
             }
-            
+
             _context.Entry(emp).State = EntityState.Deleted;
-            return emp;
+            return emp.WithoutPassword();
         }
 
-        public IssueEmployee Get(int? id, bool deleteCheck = false) {
+        public IssueEmployee GetById(int? id, bool deleteCheck = false) {
             var item = _context.IssueEmployee.AsNoTracking()
-                            .Where(x=>x.Id==id).FirstOrDefault();
+                            .Where(x => x.Id == id).FirstOrDefault();
             if (deleteCheck && item.IsDelete == true) return null;
             return item;
         }
@@ -110,43 +100,41 @@ namespace SeedApi.Services {
             emp = (from e in _context.IssueEmployee.AsNoTracking()
                    where e.IsDelete == false && e.Account == account
                    select e).FirstOrDefault();
-            return emp;
+            if (emp != null) {
+                _context.Entry(emp).State = EntityState.Deleted;
+            }
+            return emp.WithoutPassword();
         }
 
         public void Save(IssueEmployee data) {
             var persist = _context.IssueEmployee
-                            .Where(x=>x.Id==data.Id).FirstOrDefault();
+                            .Where(x => x.Id == data.Id).FirstOrDefault();
             if (persist == null) {
-                if (data.User == null) {
-                    data.User = new User() {
-                        Name = data.Name,
-                        Type = UserType.운영자
-                    };
+                var check = _context.IssueEmployee.Where(x => x.Account == data.Account && x.IsDelete == false).Count();
+                if (check > 0) {
+                    throw new ServiceException("아이디가 중복됩니다.");
                 }
-                data.User.Name = data.Name;
+                data.User = new User {
+                    Name = data.Name,
+                };
+
                 _context.IssueEmployee.Add(data);
                 _context.SaveChanges();
             } else {
-                EntityHelper.Merge(persist, data);
-
-                if (persist.User == null) {
-                    persist.User = new User() {
-                        Name = persist.Name,
-                        Type = UserType.운영자
-                    };
-
-                }
+                persist.Name = data.Name;
+                persist.Account = data.Account;
+                persist.Password = data.Password;
+                persist.EmployeeNo = data.EmployeeNo;
+                persist.Tel = data.Tel;
+                persist.Email = data.Email;
+                //
                 _context.SaveChanges();
             }
         }
 
-        public IQueryable<IssueEmployee> All() {
-            var query = _context.IssueEmployee.AsNoTracking();
+        public IQueryable<IssueEmployee> GetAll() {
+            var query = _context.IssueEmployee.Include(x => x.User).AsNoTracking();
             return query;
-        }
-
-        public IList<IssueEmployee> GetAll() {
-            return _context.IssueEmployee.AsNoTracking().ToList();
         }
     }
 }

@@ -7,8 +7,7 @@ using SeedApi.Entities.Components;
 using SeedApi.Entities.Interfaces;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SeedApi.Entities
-{
+namespace SeedApi.Entities {
     public enum IssueType {
         전자결재문서,
         단순요청 = 0
@@ -70,80 +69,79 @@ namespace SeedApi.Entities
         재수정 = 99,
     }
 
-    public class Issue : IAuditable
-    {
+    public class Issue : IAuditable {
         [Display(Name = "고유번호")]
-        public virtual int Id { get; set; }
+        public int Id { get; set; }
 
         [Display(Name = "구분")]
-        public virtual IssueType Type { get; set; }
+        public IssueType Type { get; set; }
 
         [Display(Name = "기안상태")]
-        public virtual IssueDraftState? DraftState { get; set; }
+        public IssueDraftState? DraftState { get; set; }
 
         [Display(Name = "시스템"), Required]
         public virtual IssueCategory Category { get; set; }
 
         [Display(Name = "문서구분")]
-        public virtual IssueDocumentType? DocumentType { get; set; }
+        public IssueDocumentType? DocumentType { get; set; }
         [Display(Name = "요청구분"), Required]
-        public virtual IssueRequestType RequestType { get; set; }
+        public IssueRequestType RequestType { get; set; }
         [Display(Name = "접수구분"), Required]
-        public virtual IssueAcceptType? AcceptType { get; set; }
+        public IssueAcceptType? AcceptType { get; set; }
         [Display(Name = "요청서상태")]
-        public virtual IssueState State { get; set; }
+        public IssueState State { get; set; }
         [Display(Name = "검수상태")]
-        public virtual IssueConfirmState ConfirmState { get; set; }
+        public IssueConfirmState ConfirmState { get; set; }
 
         [Display(Name = "제목"), Required]
-        public virtual string Subject { get; set; }
+        public string Subject { get; set; }
         [Display(Name = "내용"), Required]
-        public virtual string Content { get; set; }
+        public string Content { get; set; }
         [Display(Name = "쓰레드수")]
-        public virtual int ThreadCount { get; set; }
+        public int ThreadCount { get; set; }
         [Display(Name = "요청기한"), DataType(DataType.Date)]
-        public virtual DateTime? RequestCompleteDate { get; set; }
+        public DateTime? RequestCompleteDate { get; set; }
         [Display(Name = "요청기한(조정)"), DataType(DataType.Date)]
-        public virtual DateTime? RequestDisputeCompleteDate { get; set; }
+        public DateTime? RequestDisputeCompleteDate { get; set; }
         [Display(Name = "요청일자"), DataType(DataType.Date), Required]
-        public virtual DateTime? RequestDate { get; set; }
+        public DateTime? RequestDate { get; set; }
         [Display(Name = "기안일자"), DataType(DataType.Date)]
-        public virtual DateTime? DraftDate { get; set; }
+        public DateTime? DraftDate { get; set; }
         [Display(Name = "접수일자")]
-        public virtual DateTime? AcceptDate { get; set; }
+        public DateTime? AcceptDate { get; set; }
         [Display(Name = "완료일자")]
-        public virtual DateTime? CompleteDate { get; set; }
+        public DateTime? CompleteDate { get; set; }
         [Display(Name = "완료예정일자"), DataType(DataType.Date)]
-        public virtual DateTime? CompleteDueDate { get; set; }
+        public DateTime? CompleteDueDate { get; set; }
         [Display(Name = "개발승인일자"), DataType(DataType.Date), Required]
-        public virtual DateTime? AcceptAllowDate { get; set; }
+        public DateTime? AcceptAllowDate { get; set; }
         [Display(Name = "검수완료일자")]
-        public virtual DateTime? ConfirmDate { get; set; }
+        public DateTime? ConfirmDate { get; set; }
         [Display(Name = "이관일자"), DataType(DataType.Date)]
-        public virtual DateTime? TransferDate { get; set; }
-        
+        public DateTime? TransferDate { get; set; }
+
         [Display(Name = "이관여부")]
-        public virtual bool IsTransfer { get; set; }
+        public bool IsTransfer { get; set; }
 
         [Display(Name = "요청자 연락처")]
-        public virtual string Tel { get; set; }
+        public string Tel { get; set; }
         [Display(Name = "요청자 이메일")]
-        public virtual string Email { get; set; }
+        public string Email { get; set; }
 
         [Display(Name = "요청서 문서번호")]
-        public virtual string DocumentNo { get; set; }
+        public string DocumentNo { get; set; }
 
         [Display(Name = "인터페이스ID")]
-        public virtual int? InterfaceID { get; set; }
+        public int? InterfaceID { get; set; }
         [Display(Name = "인터페이스외부링크")]
-        public virtual string InterfaceDocUrl { get; set; }
+        public string InterfaceDocUrl { get; set; }
         [Display(Name = "인터페이스Updated")]
-        public virtual DateTime? InterfaceUpdated { get; set; }
+        public DateTime? InterfaceUpdated { get; set; }
 
         //[Display(Name = "요청서")]
         public virtual UploadFile UploadFile { get; set; }
         [Display(Name = "요청서구분")]
-        public virtual IssueUploadFileType? UploadFileType { get; set; }
+        public IssueUploadFileType? UploadFileType { get; set; }
 
         [Display(Name = "작성자")]
         public virtual IssueEmployee CreateIssueEmployee { get; set; }
@@ -157,9 +155,9 @@ namespace SeedApi.Entities
         public virtual IssueEmployee ConfirmIssueEmployee { get; set; }
 
         [Display(Name = "이관자")]
-        public virtual string TransferIssueEmployee { get; set; }
+        public string TransferIssueEmployee { get; set; }
         [Display(Name = "개발승인자")]
-        public virtual string AcceptAllowIssueEmployee { get; set; }
+        public string AcceptAllowIssueEmployee { get; set; }
 
         [Display(Name = "접수쓰래드")]
         public virtual IssueThread AcceptIssueThread { get; set; }
@@ -167,29 +165,30 @@ namespace SeedApi.Entities
         public virtual IssueThread CompleteIssueThread { get; set; }
         [Display(Name = "쓰래드")]
         [InverseProperty("Issue")]
-        public virtual IList<IssueThread> ThreadList { get; set; }
+        public virtual ICollection<IssueThread> ThreadList { get; set; }
 
         [Display(Name = "추가수정상태")]
-        public virtual IssueAfterServiceState AfterServiceState { get; set; }
+        public IssueAfterServiceState AfterServiceState { get; set; }
         [Display(Name = "추가수정접수일")]
-        public virtual DateTime? AfterServiceAcceptDate { get; set; }
+        public DateTime? AfterServiceAcceptDate { get; set; }
         [Display(Name = "추가수정완료예정일"), DataType(DataType.Date)]
-        public virtual DateTime? AfterServiceCompleteDueDate { get; set; }
+        public DateTime? AfterServiceCompleteDueDate { get; set; }
         [Display(Name = "추가수정완료일"), DataType(DataType.Date)]
-        public virtual DateTime? AfterServiceCompleteDate { get; set; }
+        public DateTime? AfterServiceCompleteDate { get; set; }
 
-        public virtual bool IsDelete { get; set; }
+        public bool IsDelete { get; set; }
         [Display(Name = "생성유저")]
-        public User CreateBy { get; set; }
+        [Column("CreateBy_Id")]
+        public int? CreateById { get; set; }
         [Display(Name = "수정유저")]
-        public User UpdateBy { get; set; }
+        [Column("UpdateBy_Id")]
+        public int? UpdateById { get; set; }
         [Display(Name = "생성일자")]
         public DateTime Created { get; set; }
         [Display(Name = "수정일자")]
         public DateTime? Updated { get; set; }
 
-        public Issue()
-        {
+        public Issue() {
             ThreadList = new List<IssueThread>();
         }
 

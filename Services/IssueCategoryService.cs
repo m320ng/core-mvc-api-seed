@@ -35,7 +35,6 @@ namespace SeedApi.Services {
                 _context.Update(persist);
                 _context.SaveChanges();
             } catch (Exception ex) {
-                _logger.LogError("", ex);
                 throw ex;
             }
         }

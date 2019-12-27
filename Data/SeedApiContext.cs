@@ -1,7 +1,8 @@
 using System.Linq;
 using SeedApi.Entities;
-using SeedApi.Entities.Components;
 using Microsoft.EntityFrameworkCore;
+using System;
+using SeedApi.Entities.Interfaces;
 
 namespace SeedApi.Data {
     public class SeedApiContext : DbContext {
@@ -10,11 +11,20 @@ namespace SeedApi.Data {
         public override int SaveChanges() {
             ChangeTracker.DetectChanges();
 
+            var insertEntities = ChangeTracker.Entries().Where(x => x.State == EntityState.Added && x.Entity is IAuditable);
+            foreach (var entry in insertEntities) {
+                ((IAuditable)entry.Entity).Created = DateTime.Now;
+            }
+            var updateEntities = ChangeTracker.Entries().Where(x => x.State == EntityState.Modified && x.Entity is IAuditable);
+            foreach (var entry in updateEntities) {
+                ((IAuditable)entry.Entity).Updated = DateTime.Now;
+            }
+            /*
             var modified = ChangeTracker.Entries().Where(
                 x => x.State == EntityState.Added ||
                 x.State == EntityState.Modified ||
                 x.State == EntityState.Deleted);
-
+            */
             return base.SaveChanges();
         }
 
@@ -50,15 +60,6 @@ namespace SeedApi.Data {
                 .HasOne(p => p.User)
                 .WithMany()
                 .HasForeignKey("User_id");
-
-            modelBuilder.Entity<IssueEmployee>()
-                .HasOne(p => p.CreateBy)
-                .WithMany()
-                .HasForeignKey("CreateBy_id");
-            modelBuilder.Entity<IssueEmployee>()
-                .HasOne(p => p.UpdateBy)
-                .WithMany()
-                .HasForeignKey("UpdateBy_id");
         }
 
         public DbSet<User> User { get; set; }

@@ -8,15 +8,13 @@ using SeedApi.Entities.Interfaces;
 using SeedApi.Entities.Components;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SeedApi.Entities
-{
+namespace SeedApi.Entities {
     public enum IssueEmployeeManageType {
         자체관리 = 0,
         연동관리
     }
 
-    public class IssueEmployee : IAuditable
-    {
+    public class IssueEmployee : IAuditable {
         [ScaffoldColumn(false)]
         [Display(Name = "고유번호")]
         public int Id { get; set; }
@@ -29,7 +27,7 @@ namespace SeedApi.Entities
         [Display(Name = "비밀번호"), Required, DataType(DataType.Password)]
         public string Password { get; set; }
         [NotMapped]
-        [Display(Name = "비밀번호 확인"), Required, DataType(DataType.Password), Compare("Password", ErrorMessage = "비밀번호와 같지 않습니다.")]
+        [Display(Name = "비밀번호 확인"), DataType(DataType.Password), Compare("Password", ErrorMessage = "비밀번호와 같지 않습니다.")]
         public string ConfirmPassword { get; set; }
         [Display(Name = "이메일"), DataType(DataType.EmailAddress)]
         public string Email { get; set; }
@@ -56,22 +54,21 @@ namespace SeedApi.Entities
         public string GroupCode { get; set; }
 
         [Column("User_id")]
-        public User User { get; set; }
+        public virtual User User { get; set; }
 
         public bool IsDelete { get; set; }
         [Display(Name = "생성유저")]
-        [Column("CreateBy")]
-        public User CreateBy { get; set; }
+        [Column("CreateBy_Id")]
+        public int? CreateById { get; set; }
         [Display(Name = "수정유저")]
-        [Column("UpdateBy")]
-        public User UpdateBy { get; set; }
+        [Column("UpdateBy_Id")]
+        public int? UpdateById { get; set; }
         [Display(Name = "생성일자")]
         public DateTime Created { get; set; }
         [Display(Name = "수정일자")]
         public DateTime? Updated { get; set; }
 
-        public IssueEmployee()
-        {
+        public IssueEmployee() {
         }
     }
 }

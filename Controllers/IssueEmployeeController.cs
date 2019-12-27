@@ -12,8 +12,14 @@ using SeedApi.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
+using SeedApi.Helpers;
 
 namespace SeedApi.Controllers {
+    [Authorize]
+    [ApiController]
+    [ApiVersion("1")]
+    [Route("api/users")]
     public class IssueEmployeeController : Controller {
         private readonly ILogger<IssueEmployeeController> _logger;
         private readonly SeedApiContext _context;
@@ -29,42 +35,98 @@ namespace SeedApi.Controllers {
             _service = service;
         }
 
-        public async Task<IActionResult> Index() {
-            return View(await _context.IssueEmployee.AsNoTracking().Take(100).ToListAsync());
+        /// <summary>
+        /// 로그인
+        /// </summary>
+        [AllowAnonymous]
+        [HttpPost("[action]")]
+        public IActionResult SignIn([FromBody]SignInModel model) {
+            var emp = _service.Login(model.Account, model.Password, null);
+
+            if (emp == null)
+                return BadRequest("아이디나 비밀번호가 잘못되었습니다.");
+
+            return Ok(new {
+                emp.Id,
+                emp.Name,
+                emp.Account,
+                emp.EmployeeNo,
+                emp.Email,
+                emp.Tel,
+                emp.Phone,
+                emp.TeamCode,
+                emp.TeamName,
+                emp.GroupCode,
+                emp.User.Permissions,
+                emp.User.Token,
+            });
         }
 
-        public IActionResult Details(int? id) {
-            if (id == null) {
-                return NotFound();
-            }
-
-            var emp = _service.Get(id);
-            if (emp == null) {
-                return NotFound();
-            }
-
-            return View(emp);
-        }
-
-        public IActionResult Create() {
-            return View("Edit");
-        }
-
+        /// <summary>
+        /// 목록
+        /// </summary>
         [HttpGet]
-        public IActionResult Edit(int? id) {
-            if (id == null) {
-                return NotFound();
+        public IActionResult List([FromQuery]PaginationRequest req) {
+            _logger.LogInformation(req.Dump());
+
+            var query = _service.GetAll();
+            if (req.conditions != null) {
+                foreach (var cond in req.conditions) {
+                    switch ($"{cond.field}_{cond.op}") {
+                        case "name_eq":
+                            query = query.Where(x => x.Name == cond.value);
+                            break;
+                        case "name_cn":
+                            query = query.Where(x => x.Name.Contains(cond.value));
+                            break;
+                    }
+                }
             }
-            var emp = _service.Get(id);
-            if (emp == null) {
-                return NotFound();
+            query = query.Where(x => x.IsDelete == false);
+            if (req.sort != null) {
+                switch ($"{req.sort.field}_{req.sort.field}") {
+                    case "name_asc":
+                        query = query.OrderBy(x => x.Name);
+                        break;
+                    case "name_desc":
+                        query = query.OrderByDescending(x => x.Name);
+                        break;
+                }
             }
-            emp.ConfirmPassword = emp.Password;
-            return View(emp);
+            var list = query.Select(x => new {
+                x.Id,
+                x.Name,
+                x.Account,
+                x.EmployeeNo,
+            });
+            var paging = PaginationList.Pagination(list, req.page, req.limit);
+            return Ok(paging);
         }
 
-        [HttpPost]
-        public IActionResult Edit(int id, IssueEmployee emp) {
+        /// <summary>
+        /// 상세조회
+        /// </summary>
+        [HttpGet("{id}")]
+        public IActionResult GetById(int id) {
+            var emp = _service.GetById(id);
+
+            if (emp == null)
+                return NotFound();
+
+            return Ok(emp);
+        }
+
+        /// <summary>
+        /// 수정
+        /// </summary>
+        [HttpPost("{id}")]
+        public IActionResult Edit(int id, [FromBody]IssueEmployee emp) {
+            var currentUserId = int.Parse(User.Identity.Name);
+            if (id != currentUserId)
+                return Forbid();
+            if (!User.IsInRole(Role.Admin))
+                return Forbid();
+
             if (id != emp.Id) {
                 return NotFound();
             }
@@ -72,17 +134,40 @@ namespace SeedApi.Controllers {
             if (ModelState.IsValid) {
                 try {
                     _service.Save(emp);
-                } catch (DbUpdateException ex) {
-                    throw ex;
+                } catch (ServiceException ex) {
+                    return BadRequest(ex.Message);
                 }
-                return RedirectToAction("Index");
+            } else {
+                return BadRequest(ModelState);
             }
-            return View(emp);
+
+            return Ok(emp);
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error() {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        /// <summary>
+        /// 등록
+        /// </summary>
+        [HttpPut]
+        public IActionResult Create([FromBody]IssueEmployee emp) {
+            if (!User.IsInRole(Role.Admin))
+                return Forbid();
+
+            if (ModelState.IsValid) {
+                try {
+                    _service.Save(emp);
+                } catch (ServiceException ex) {
+                    return BadRequest(ex.Message);
+                }
+            } else {
+                return BadRequest(ModelState);
+            }
+            return Ok(emp);
+        }
+
+        // Role 제한 테스트
+        public IActionResult Auth() {
+
+            return Ok();
         }
     }
 }

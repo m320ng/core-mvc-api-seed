@@ -34,18 +34,25 @@ namespace SeedApi {
             });
             services.AddCors();
 
+            // 서비스들 추가
             services.AddScoped<IssueEmployeeService>();
-            services.AddScoped<UserService>();
+            services.AddScoped<IssueCategoryService>();
+
+            services.AddControllers(options =>
+                options.Filters.Add(new HttpResponseExceptionFilter()));
 
             if (Environment.IsDevelopment()) {
-                services.AddControllersWithViews().AddRazorRuntimeCompilation();
-                services.AddDbContext<SeedApiContext>(
-                    options => options.UseSqlite(Configuration.GetConnectionString("SeedApiContext")));
-                    //options => options.UseSqlServer(Configuration.GetConnectionString("SeedApiContext")));
+                var sever = Configuration.GetConnectionString("Server");
+                if (sever != null && sever == "Sqlite") {
+                    services.AddDbContext<SeedApiContext>(
+                        options => options.UseLazyLoadingProxies().UseSqlite(Configuration.GetConnectionString("SqliteContext")));
+                } else {
+                    services.AddDbContext<SeedApiContext>(
+                        options => options.UseLazyLoadingProxies().UseSqlServer(Configuration.GetConnectionString("SqlServerContext")));
+                }
             } else {
-                services.AddControllersWithViews();
                 services.AddDbContext<SeedApiContext>(
-                    options => options.UseSqlServer(Configuration.GetConnectionString("SeedApiContext")));
+                    options => options.UseLazyLoadingProxies().UseSqlServer(Configuration.GetConnectionString("SqlServerContext")));
             }
 
             // configure strongly typed settings objects
@@ -55,7 +62,7 @@ namespace SeedApi {
             // configure jwt authentication
             var appSettings = appSettingsSection.Get<AppSettings>();
             var key = Encoding.ASCII.GetBytes(appSettings.Secret);
-            
+
             services.AddAuthentication(x => {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -75,10 +82,16 @@ namespace SeedApi {
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory) {
             ApplicationLogging.ConfigureLogger(loggerFactory);
-            
+
             Util._logger = ApplicationLogging.CreateLogger("Util");
             EntityHelper._logger = ApplicationLogging.CreateLogger("EntityHelper");
-            
+
+            if (env.IsDevelopment()) {
+                app.UseExceptionHandler("/error-local-development");
+            } else {
+                app.UseExceptionHandler("/error");
+            }
+
             app.UseRouting();
 
             // global cors policy
