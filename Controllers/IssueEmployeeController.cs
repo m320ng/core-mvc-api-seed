@@ -66,7 +66,7 @@ namespace SeedApi.Controllers {
         /// 목록
         /// </summary>
         [HttpGet]
-        public IActionResult List([FromQuery]PaginationRequest req) {
+        public IActionResult List([FromQuery]PagingRequest req) {
             _logger.LogInformation(req.Dump());
 
             var query = _service.GetAll();
@@ -99,7 +99,7 @@ namespace SeedApi.Controllers {
                 x.Account,
                 x.EmployeeNo,
             });
-            var paging = PaginationList.Pagination(list, req.page, req.limit);
+            var paging = PagingList.Pagination(list, req.page, req.limit);
             return Ok(paging);
         }
 

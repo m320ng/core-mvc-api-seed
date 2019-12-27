@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace SeedApi.Models {
 
 
-    public class PaginationRequest {
+    public class PagingRequest {
         public int page { get; set; } = 1;
         public int limit { get; set; } = 20;
         public Sort sort { get; set; }
