@@ -47,7 +47,7 @@ namespace SeedApi.Models {
             var pagedList = new PagingList();
             var skip = (page - 1) * limit;
             pagedList.total = list.Count();
-            list = list.Take(limit).Skip(skip);
+            list = list.Skip(skip).Take(limit);
             pagedList.list = list.ToList();
             pagedList.page = page;
             pagedList.pages = (int)Math.Ceiling((float)pagedList.total / (float)limit);
