@@ -25,6 +25,12 @@ dotnet ef migrations add init
 dotnet ef database update
 ```
 
+EPPlus (Excel 출력)
+
+```
+dotnet add package EPPlus --version 4.5.3.2
+```
+
 Versioning 패키지
 
 ```
