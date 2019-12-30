@@ -13,7 +13,7 @@ namespace SeedApi.Models {
 
         public class Sort {
             public string field { get; set; }
-            public string dir { get; set; }
+            public string order { get; set; }
         }
         public class Condition {
             public string field { get; set; }

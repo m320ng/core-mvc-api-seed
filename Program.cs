@@ -8,13 +8,12 @@ using Microsoft.Extensions.Logging;
 namespace SeedApi {
     public class Program {
         public static void Main(string[] args) {
-            CreateHostBuilder(args).Build().Run();
-
             var host = CreateHostBuilder(args).Build();
 
             using (var scope = host.Services.CreateScope()) {
                 var services = scope.ServiceProvider;
                 try {
+                    Console.WriteLine("----------------------");
                     SeedData.Initialize(services);
                 } catch (Exception ex) {
                     var logger = services.GetRequiredService<ILogger<Program>>();

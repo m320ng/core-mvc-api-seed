@@ -59,6 +59,9 @@ namespace SeedApi.Services {
                 if (emp != null && emp.Password == password) {
                     // authentication successful so generate jwt token
                     var user = emp.User;
+                    if (user == null) {
+                        throw new Exception("잘못된 정보입니다.");
+                    }
                     var tokenHandler = new JwtSecurityTokenHandler();
                     var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
                     var tokenDescriptor = new SecurityTokenDescriptor {
