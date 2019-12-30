@@ -8,5 +8,4 @@
 
 # misc
 /Migrations
-SeedApi.db
-*.db
+/*.db
