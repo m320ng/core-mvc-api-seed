@@ -126,7 +126,6 @@ namespace SeedApi.Services {
             } else {
                 persist.Name = data.Name;
                 persist.Account = data.Account;
-                persist.Password = data.Password;
                 persist.EmployeeNo = data.EmployeeNo;
                 persist.Tel = data.Tel;
                 persist.Email = data.Email;

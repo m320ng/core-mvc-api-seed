@@ -133,16 +133,22 @@ namespace SeedApi.Controllers {
         /// </summary>
         [HttpPost("{id}")]
         public IActionResult Edit(int id, [FromBody]IssueEmployee emp) {
+            _logger.LogInformation(emp.Dump());
+            /*
             var currentUserId = int.Parse(User.Identity.Name);
             if (id != currentUserId)
                 return Forbid();
             if (!User.IsInRole(Role.Admin))
                 return Forbid();
+            */
 
             if (id != emp.Id) {
                 return NotFound();
             }
 
+            foreach (var ms in ModelState.ToArray()) {
+                _logger.LogInformation(ms.Key);
+            }
             if (ModelState.IsValid) {
                 try {
                     _service.Save(emp);
@@ -150,6 +156,9 @@ namespace SeedApi.Controllers {
                     return BadRequest(ex.Message);
                 }
             } else {
+                foreach (var ms in ModelState.ToArray()) {
+                    _logger.LogInformation(ms.Key);
+                }
                 return BadRequest(ModelState);
             }
 

@@ -20,22 +20,8 @@ namespace SeedApi.Controllers {
         }
 
         public IActionResult Index() {
-            return View();
+            return Content("api server");
         }
 
-        [Authorize(Roles = "Admin, User")]
-        public IActionResult Privacy() {
-            return View();
-        }
-
-        [Authorize(Roles = "Admin")]
-        public IActionResult Setting() {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error() {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
     }
 }
