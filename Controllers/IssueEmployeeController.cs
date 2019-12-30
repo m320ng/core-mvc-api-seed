@@ -74,7 +74,7 @@ namespace SeedApi.Controllers {
                 x.Id,
                 x.Name,
                 팀코드 = x.TeamCode,
-                팀명 = x.Name,
+                팀명 = x.TeamName,
                 x.Account,
                 x.EmployeeNo,
                 x.Created,
@@ -114,7 +114,18 @@ namespace SeedApi.Controllers {
             if (emp == null)
                 return NotFound();
 
-            return Ok(emp);
+            return Ok(new {
+                emp.Id,
+                emp.Name,
+                emp.TeamCode,
+                emp.TeamName,
+                emp.IsDeveloper,
+                emp.Account,
+                emp.EmployeeNo,
+                emp.Phone,
+                emp.Created,
+                emp.Updated,
+            });
         }
 
         /// <summary>
