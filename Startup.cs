@@ -16,6 +16,8 @@ using System.Text.Unicode;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace SeedApi {
     public class Startup {
@@ -32,6 +34,11 @@ namespace SeedApi {
             services.Configure<WebEncoderOptions>(options => {
                 options.TextEncoderSettings = new TextEncoderSettings(UnicodeRanges.All); // 한글이 인코딩되는 문제 해결
             });
+
+            services.Configure<ApiBehaviorOptions>(options => {
+                options.SuppressModelStateInvalidFilter = true;
+            });
+
             services.AddCors();
 
             // 서비스들 추가
@@ -39,7 +46,11 @@ namespace SeedApi {
             services.AddScoped<IssueCategoryService>();
 
             services.AddControllers(options =>
-                options.Filters.Add(new HttpResponseExceptionFilter()));
+                options.Filters.Add(new HttpResponseExceptionFilter())
+            )/*.AddJsonOptions(options => { // JSON 카멜케이스 - ModelState Error는 반영안됨
+                options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+                options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+            })*/;
 
             if (Environment.IsDevelopment()) {
                 var sever = Configuration.GetConnectionString("Server");

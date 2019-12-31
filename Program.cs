@@ -13,7 +13,6 @@ namespace SeedApi {
             using (var scope = host.Services.CreateScope()) {
                 var services = scope.ServiceProvider;
                 try {
-                    Console.WriteLine("----------------------");
                     SeedData.Initialize(services);
                 } catch (Exception ex) {
                     var logger = services.GetRequiredService<ILogger<Program>>();
@@ -27,7 +26,7 @@ namespace SeedApi {
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder => {
-                    webBuilder.UseStartup<Startup>().UseUrls("http://localhost:5000");
+                    webBuilder.UseStartup<Startup>().UseUrls("http://0.0.0.0:5000");
                 });
     }
 }

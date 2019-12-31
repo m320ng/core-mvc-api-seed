@@ -24,7 +24,7 @@ namespace SeedApi.Entities {
         public string Name { get; set; }
         [Display(Name = "접속아이디"), Required]
         public string Account { get; set; }
-        [Display(Name = "비밀번호")/*, Required*/, DataType(DataType.Password)]
+        [Display(Name = "비밀번호"), Required, DataType(DataType.Password)]
         public string Password { get; set; }
         [NotMapped]
         [Display(Name = "비밀번호 확인"), DataType(DataType.Password), Compare("Password", ErrorMessage = "비밀번호와 같지 않습니다.")]

@@ -146,9 +146,7 @@ namespace SeedApi.Controllers {
                 return NotFound();
             }
 
-            foreach (var ms in ModelState.ToArray()) {
-                _logger.LogInformation(ms.Key);
-            }
+            ModelState.Remove("Password"); // 이 수정에서는 비밀번호 제외
             if (ModelState.IsValid) {
                 try {
                     _service.Save(emp);
