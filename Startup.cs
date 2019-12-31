@@ -47,10 +47,11 @@ namespace SeedApi {
 
             services.AddControllers(options =>
                 options.Filters.Add(new HttpResponseExceptionFilter())
-            )/*.AddJsonOptions(options => { // JSON 카멜케이스 - ModelState Error는 반영안됨
+            ).AddJsonOptions(options => { // JSON 카멜케이스 - DictionaryKeyPolicy (ModelState Error)는 반영안됨?
                 options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
                 options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-            })*/;
+                options.JsonSerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
+            });
 
             if (Environment.IsDevelopment()) {
                 var sever = Configuration.GetConnectionString("Server");
